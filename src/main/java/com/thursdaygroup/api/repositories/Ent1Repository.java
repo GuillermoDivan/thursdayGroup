@@ -1,0 +1,44 @@
+package com.thursdaygroup.api.repositories;
+import com.thursdaygroup.api.entities.ent1.Ent1;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
+
+@Repository
+public interface Ent1Repository extends JpaRepository<Ent1, Long> {
+    Optional<Ent1> findByEmailAndActive(String email, Boolean active);
+    //Si los parámetros son de la misma entidad no es necesario hacer query.
+    //Optional es necesario para que funcione el .orElseThrow() del método del service.
+    Page<Ent1> findAllByActive(Boolean active, Pageable paging);
+
+    @Query("""
+    SELECT E FROM Ent1 E 
+    WHERE E.ent2List.id = :ent2Id and E.active = :active 
+    """)
+    Page<Ent1>findAllByEnt2IdAndActive(Long ent2Id, Boolean active, Pageable paging);
+
+    @Query("""
+    SELECT E FROM Ent1 E 
+    WHERE E.ent3List.id = :ent3Id and E.active = :active 
+    """)
+    Page<Ent1>findAllByEnt3IdAndActive(Long ent3Id, Boolean active, Pageable paging);
+
+    @Query("""
+    SELECT E FROM Ent1 E 
+    WHERE E.date = :date and E.active = :active 
+    """)
+    Page<Ent1>findAllByDateAndActive(LocalDateTime date, Boolean active, Pageable paging);
+
+    @Query("""
+    SELECT E FROM Ent1 E 
+    WHERE E.date BETWEEN :date1 AND :date2 
+    AND E.active = :active 
+    """)
+    Page<Ent1>findAllBetweenDatesAndActive(LocalDateTime date1, LocalDateTime date2, Boolean active, Pageable paging);
+
+}
