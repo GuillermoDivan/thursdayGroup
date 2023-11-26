@@ -1,4 +1,6 @@
 package com.thursdaygroup.api.entities.ent2;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +12,10 @@ import java.time.LocalDateTime;
 public class Ent2DTO {
     private Long id;
     private String publicInfo;
-    private String noUpdateableInfo;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    //Anotación necesaria para que el DTO no la muestre a la hora de devolver info.
+    private String secretInfo;
+    private String noUpdatableInfo;
     private String email;
     private LocalDateTime date;
 }

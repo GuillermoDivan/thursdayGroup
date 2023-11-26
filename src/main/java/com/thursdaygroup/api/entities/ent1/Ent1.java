@@ -1,10 +1,13 @@
 package com.thursdaygroup.api.entities.ent1;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.thursdaygroup.api.entities.ent2.Ent2;
 import com.thursdaygroup.api.entities.ent3.Ent3;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -18,7 +21,7 @@ public class Ent1 {
     private Long id;
     private String publicInfo;
     private String secretInfo;
-    private String noUpdateableInfo;
+    private String noUpdatableInfo;
     private String email;
     private LocalDateTime date;
     private boolean active;
@@ -28,7 +31,7 @@ public class Ent1 {
     //Ejemplos de uso: estudiante con notas, orden con productos.
     //Fetch type lazy implica que sólo traerá la información de los objetos cuando sea explícitamente
     //consultada.
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "ent1List")
     private List<Ent2> ent2List;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "ent1")
     private List<Ent3> ent3List;
@@ -36,9 +39,8 @@ public class Ent1 {
     public Ent1(Ent1CreateDTO ent1CreateDTO) {
         this.publicInfo = ent1CreateDTO.publicInfo();
         this.secretInfo = ent1CreateDTO.secretInfo();
-        this.noUpdateableInfo = ent1CreateDTO.noUpdateableInfo();
+        this.noUpdatableInfo = ent1CreateDTO.noUpdatableInfo();
         this.email = ent1CreateDTO.email();
-
         //Hay atributos que se settean por defecto en determinado estado.
         this.date = LocalDateTime.now();
         this.active = true;

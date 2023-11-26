@@ -1,12 +1,13 @@
 package com.thursdaygroup.api.services.Ent1;
 import com.thursdaygroup.api.entities.ent1.*;
+import com.thursdaygroup.api.entities.ent2.Ent2;
 import com.thursdaygroup.api.repositories.Ent1Repository;
+import com.thursdaygroup.api.repositories.Ent2Repository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 
 @Service
@@ -14,11 +15,23 @@ import java.time.LocalDateTime;
 public class Ent1ServiceImpl implements Ent1Service{
 
     public final Ent1Repository ent1Repository;
+    public final Ent2Repository ent2Repository; //Necesité inyectar este repository por la relación ManyToMany.
 
 
     @Override
     public Ent1ReadDTO save(Ent1CreateDTO ent1CreateDTO) {
         Ent1 ent1 = new Ent1(ent1CreateDTO);
+        this.ent1Repository.save(ent1);
+        return new Ent1ReadDTO(ent1);
+    }
+
+    @Override
+    public Ent1ReadDTO relateEnt1ToEnt2(Long id1, Long id2) throws EntityNotFoundException {
+        Ent1 ent1 = this.ent1Repository.findById(id1).orElseThrow(EntityNotFoundException::new);
+        Ent2 ent2 = this.ent2Repository.findById(id2).orElseThrow(EntityNotFoundException::new);
+        ent1.getEnt2List().add(ent2);
+        //La relación es de los dos lados, al settear a una, se le settea a la otra.
+        //Repetiré el método en Ent2 simplemente por si se quiere probar hacer la relación desde la otra entidad.
         this.ent1Repository.save(ent1);
         return new Ent1ReadDTO(ent1);
     }
@@ -73,16 +86,25 @@ public class Ent1ServiceImpl implements Ent1Service{
     }
 
     @Override
-    public boolean toggle(Long id) {
+    public boolean hide(Long id) {
         Ent1 ent1 = this.ent1Repository.findById(id).orElseThrow(EntityNotFoundException::new);
-        ent1.setActive(!ent1.isActive());
-        return true;
+        if (ent1.isActive()) {
+            ent1.setActive(false);
+        } return true;
     }
 
-    /*@Override
+    @Override
+    public boolean reactive(Long id) {
+        Ent1 ent1 = this.ent1Repository.findById(id).orElseThrow(EntityNotFoundException::new);
+        if (!ent1.isActive()) {
+            ent1.setActive(true);
+        } return true;
+    }
+
+    @Override
     public boolean delete(Long id) {
         Ent1 ent1 = this.ent1Repository.findById(id).orElseThrow(EntityNotFoundException::new);
         this.ent1Repository.delete(ent1);
         return true;
-    }*/
+    }
 }
