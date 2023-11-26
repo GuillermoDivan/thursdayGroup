@@ -5,7 +5,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -16,16 +15,10 @@ public interface Ent1Repository extends JpaRepository<Ent1, Long> {
     //Optional es necesario para que funcione el .orElseThrow() del método del service.
     Page<Ent1> findAllByActive(Boolean active, Pageable paging);
 
-    @Query("""
-    SELECT E FROM Ent1 E 
-    WHERE E.ent2List.id = :ent2Id and E.active = :active 
-    """)
+    @Query("SELECT E1 FROM Ent1 E1 INNER JOIN E1.ent2List E2 WHERE E2.id = :ent2Id and E1.active = :active")
     Page<Ent1>findAllByEnt2IdAndActive(Long ent2Id, Boolean active, Pageable paging);
 
-    @Query("""
-    SELECT E FROM Ent1 E 
-    WHERE E.ent3List.id = :ent3Id and E.active = :active 
-    """)
+    @Query("SELECT E1 FROM Ent1 E1 INNER JOIN E1.ent3List E3 WHERE E3.id = :ent3Id and E1.active = :active")
     Page<Ent1>findAllByEnt3IdAndActive(Long ent3Id, Boolean active, Pageable paging);
 
     @Query("""

@@ -1,4 +1,5 @@
 package com.thursdaygroup.api.entities.ent2;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.thursdaygroup.api.entities.ent1.Ent1;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -17,11 +18,14 @@ public class Ent2 {
     private Long id;
     private String publicInfo;
     private String secretInfo;
-    private String noUpdateableInfo;
+    private String noUpdatableInfo;
     private String email;
     private LocalDateTime date;
-    private boolean active;
+    private boolean active = true;
     @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "ent1_ent2_asoc",
+            joinColumns = { @JoinColumn(name = "Ent2_id") },
+            inverseJoinColumns = { @JoinColumn(name = "Ent1_id") })
     private List<Ent1> ent1List;
 }
 

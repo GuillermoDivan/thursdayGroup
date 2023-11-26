@@ -1,4 +1,5 @@
 package com.thursdaygroup.api.entities.ent3;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.thursdaygroup.api.entities.ent1.Ent1;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -16,7 +17,7 @@ public class Ent3 {
     private Long id;
     private String publicInfo;
     private String secretInfo;
-    private String noUpdateableInfo;
+    private String noUpdatableInfo;
     private String email;
     private LocalDateTime date;
     private boolean active;
@@ -27,7 +28,7 @@ public class Ent3 {
     public Ent3(Ent3CreateDTO ent3CreateDTO) {
         this.publicInfo = ent3CreateDTO.publicInfo();
         this.secretInfo = ent3CreateDTO.secretInfo();
-        this.noUpdateableInfo = ent3CreateDTO.noUpdateableInfo();
+        this.noUpdatableInfo = ent3CreateDTO.noUpdatableInfo();
         this.email = ent3CreateDTO.email();
 
         //Hay atributos que se settean por defecto en determinado estado.
