@@ -6,3 +6,6 @@ Se presentan inicialmente tres entidades como ejemplo de trabajo:
 
 Adicionalmente se prueba relación ManyToMany entre Ent1 y Ent2.
 Cada participante optará por realizar una o varias entidades con el modelo de prefencia, desarrollando la estructura de la aplicación en cada una de las capas (Repository, Service, Controller).
+
+
+Vanessa estuvo aqui
