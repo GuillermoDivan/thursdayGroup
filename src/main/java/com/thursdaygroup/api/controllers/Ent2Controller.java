@@ -3,19 +3,23 @@ import com.thursdaygroup.api.entities.ent2.Ent2DTO;
 import com.thursdaygroup.api.services.Ent2.Ent2Service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
 @RequestMapping("/ent2")
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class Ent2Controller {
 
     private final Ent2Service ent2Service;
 
-    @PostMapping("/save")
-    @Transactional //@Transactional Puede ir en Service, de hecho quizás sería mejor en Service.
+    @PostMapping(path = "/",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @Transactional
     public ResponseEntity<Ent2DTO> saveEnt2(@RequestBody Ent2DTO ent2DTO) {
         var dto = this.ent2Service.save(ent2DTO);
         return ResponseEntity.ok().body(dto);
@@ -86,15 +90,12 @@ public class Ent2Controller {
     }
 
     //Método Delete de la db hecho desde controller a db pero comentado para no usar por error.
-    @DeleteMapping("/id/{id}")
+    /*@DeleteMapping("/id/{id}")
     @Transactional
     public ResponseEntity<Boolean> deleteEnt2(@PathVariable Long id){
         boolean result = this.ent2Service.delete(id);
         if (result) {
             return ResponseEntity.ok().body(true);
         } else { return ResponseEntity.badRequest().body(false); }
-    }
-
-
-
+    }*/
 }

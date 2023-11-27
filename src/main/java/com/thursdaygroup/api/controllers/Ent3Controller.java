@@ -1,5 +1,4 @@
 package com.thursdaygroup.api.controllers;
-
 import com.thursdaygroup.api.entities.ent3.*;
 import com.thursdaygroup.api.services.Ent3.Ent3Service;
 import jakarta.transaction.Transactional;
@@ -7,18 +6,24 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/ent3")
+@CrossOrigin(origins = "*") //Esta anotación debe hacerse en tod.o controller especificando
+//urls habilitadas (o dejando * para todas...), pero también se puede gestionar como una clase
+//de seguridad global. Aplicar en el futuro.
 @RequiredArgsConstructor
 public class Ent3Controller {
 
     private final Ent3Service ent3Service;
 
-    @PostMapping("/save")
-    @Transactional //@Transactional Puede ir en Service, de hecho quizás sería mejor en Service.
+    @PostMapping(path = "/",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @Transactional
     public ResponseEntity<Ent3ReadDTO> saveEnt3(@RequestBody @Valid Ent3CreateDTO Ent3CreateDTO) {
         var readDto = this.ent3Service.save(Ent3CreateDTO);
         return ResponseEntity.ok().body(readDto);
@@ -78,13 +83,13 @@ public class Ent3Controller {
     }
 
     //Método Delete de la db hecho desde controller a db pero comentado para no usar por error.
-    @DeleteMapping("/id/{id}")
+    /*@DeleteMapping("/id/{id}")
     @Transactional
     public ResponseEntity<Boolean> deleteEnt3(@PathVariable Long id){
         boolean result = this.ent3Service.delete(id);
         if (result) {
             return ResponseEntity.ok().body(true);
         } else { return ResponseEntity.badRequest().body(false); }
-    }
+    }*/
 
-}
+    }

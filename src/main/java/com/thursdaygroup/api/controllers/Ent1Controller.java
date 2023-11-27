@@ -6,22 +6,30 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
 @RestController
 @RequestMapping("/ent1")
-@RequiredArgsConstructor
+@CrossOrigin(origins = "*")
+@RequiredArgsConstructor //Esta anotación debe hacerse en tod.o controller especificando
+//urls habilitadas (o dejando * para todas...), pero también se puede gestionar como una clase
+//de seguridad global. Aplicar en el futuro.
 public class Ent1Controller {
 
     private final Ent1Service ent1Service;
 
-    @PostMapping("/save")
+    @PostMapping(path = "/",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @Transactional //@Transactional Puede ir en Service, de hecho quizás sería mejor en Service.
     public ResponseEntity<Ent1ReadDTO> saveEnt1(@RequestBody @Valid Ent1CreateDTO Ent1CreateDTO) {
         var readDto = this.ent1Service.save(Ent1CreateDTO);
         return ResponseEntity.ok().body(readDto);
+        //Convendría devolver "created" en lugar de "ok". Para hacerlo sin modificar el objeto retorno se debe incluir la uri.
+        //Modificado en Ent3!
     }
 
     @GetMapping("/id/{id}")
@@ -69,7 +77,9 @@ public class Ent1Controller {
         return ResponseEntity.ok().body(readDto);
     }*/
 
-    @PutMapping("/id/{id}")
+    @PutMapping(path = "/id/{id}",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @Transactional
     public ResponseEntity<Ent1ReadDTO> updateEnt1(@RequestBody @Valid Ent1UpdateDTO ent1UpdateDTO){
         var readDto = this.ent1Service.update(ent1UpdateDTO);
@@ -94,9 +104,8 @@ public class Ent1Controller {
         } else { return ResponseEntity.badRequest().body(false); }
     }
 
-    /*
     //Método Delete de la db hecho desde controller a db pero comentado para no usar por error.
-    @DeleteMapping("/id/{id}")
+     /*@DeleteMapping("/id/{id}")
     @Transactional
     public ResponseEntity<Boolean> deleteEnt1(@PathVariable Long id){
         boolean result = this.ent1Service.delete(id);
@@ -104,5 +113,4 @@ public class Ent1Controller {
             return ResponseEntity.ok().body(true);
         } else { return ResponseEntity.badRequest().body(false); }
     }*/
-
 }

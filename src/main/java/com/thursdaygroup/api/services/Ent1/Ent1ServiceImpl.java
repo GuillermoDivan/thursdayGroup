@@ -38,7 +38,7 @@ public class Ent1ServiceImpl implements Ent1Service{
 
     @Override
     public Ent1ReadDTO findById(Long id) throws EntityNotFoundException{
-        Ent1 ent1 = this.ent1Repository.findById(id).orElseThrow(EntityNotFoundException::new);
+        var ent1 = this.ent1Repository.findById(id).orElseThrow(EntityNotFoundException::new);
         return new Ent1ReadDTO(ent1);
     }
 
