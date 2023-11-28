@@ -29,7 +29,11 @@ public class Ent1 {
     //Ejemplos de uso: estudiante con notas, orden con productos.
     //Fetch type lazy implica que sólo traerá la información de los objetos cuando sea explícitamente
     //consultada.
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "ent1List")
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    @JoinTable(name = "ent1_ent2_asoc",
+            joinColumns = { @JoinColumn(name = "Ent1_id") },
+            inverseJoinColumns = { @JoinColumn(name = "Ent2_id") })
     private List<Ent2> ent2List;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "ent1")
     private List<Ent3> ent3List;

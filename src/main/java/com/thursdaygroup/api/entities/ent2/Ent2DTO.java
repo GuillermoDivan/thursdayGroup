@@ -1,10 +1,11 @@
 package com.thursdaygroup.api.entities.ent2;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.thursdaygroup.api.entities.ent1.Ent1;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -18,6 +19,8 @@ public class Ent2DTO {
     private String noUpdatableInfo;
     private String email;
     private LocalDate date;
+    private List<Ent1> ent1List;
+
 }
 
 // Si se recurre a mapper, el DTO simplemente es una copia de la entidad con los atributos
