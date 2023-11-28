@@ -65,9 +65,21 @@ public class Ent2Controller {
         return ResponseEntity.ok().body(readDto);
     }
 
+    @GetMapping("/inactive/date/{date}")
+    public ResponseEntity<List<Ent2DTO>> findAllByDateAndInactive(@PathVariable String date){
+        var readDto = this.ent2Service.findAllByDate(false, date);
+        return ResponseEntity.ok().body(readDto);
+    }
+
     @GetMapping("/dates/{date1}/{date2}")
     public ResponseEntity<List<Ent2DTO>> findAllBetweenDates(@PathVariable String date1, @PathVariable String date2){
         var readDto = this.ent2Service.findAllBetweenDates(true, date1, date2);
+        return ResponseEntity.ok().body(readDto);
+    }
+
+    @GetMapping("/inactive/dates/{date1}/{date2}")
+    public ResponseEntity<List<Ent2DTO>> findAllBetweenDatesAndInactive(@PathVariable String date1, @PathVariable String date2){
+        var readDto = this.ent2Service.findAllBetweenDates(false, date1, date2);
         return ResponseEntity.ok().body(readDto);
     }
 
