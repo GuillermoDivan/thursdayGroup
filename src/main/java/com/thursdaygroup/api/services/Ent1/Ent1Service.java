@@ -12,8 +12,8 @@ public interface Ent1Service {
     Ent1ReadDTO findById(Long id) throws EntityNotFoundException;
     Ent1ReadDTO findByEmail(boolean active, String email) throws EntityNotFoundException;
     Page<Ent1ReadDTO> findAll(boolean active, Pageable paging);
-    Page<Ent1ReadDTO>  findAllByDate(boolean active, LocalDateTime date, Pageable paging);
-    Page<Ent1ReadDTO>  findAllBetweenDates(boolean active, LocalDateTime date1, LocalDateTime date2, Pageable paging);
+    Page<Ent1ReadDTO>  findAllByDate(boolean active, String date, Pageable paging);
+    Page<Ent1ReadDTO>  findAllBetweenDates(boolean active, String date1, String date2, Pageable paging);
     Page<Ent1ReadDTO> findAllByEnt2Id(boolean active, Long ent2Id, Pageable paging);
     Page<Ent1ReadDTO> findAllByEnt3Id(boolean active, Long ent3Id, Pageable paging);
     Ent1ReadDTO update(Ent1UpdateDTO ent1UpdateDTO) throws EntityNotFoundException;

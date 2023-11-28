@@ -3,7 +3,7 @@ import com.thursdaygroup.api.entities.ent2.Ent2;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,15 +19,15 @@ public interface Ent2Repository extends JpaRepository<Ent2, Long> {
 
     @Query("""
     SELECT E FROM Ent2 E 
-    WHERE E.date = :date and E.active = :active 
+    WHERE E.date = :date1 and E.active = :active 
     """)
-    List<Ent2> findAllByDateAndActive(LocalDateTime date, Boolean active);
+    List<Ent2> findAllByDateAndActive(LocalDate date1, Boolean active);
 
     @Query("""
     SELECT E FROM Ent2 E 
-    WHERE E.date BETWEEN :date1 AND :date2 
+    WHERE E.date BETWEEN :dateBefore AND :dateAfter 
     AND E.active = :active 
     """)
-    List<Ent2> findAllBetweenDatesAndActive(LocalDateTime date1, LocalDateTime date2, Boolean active);
+    List<Ent2> findAllBetweenDatesAndActive(LocalDate dateBefore, LocalDate dateAfter, Boolean active);
 
 }

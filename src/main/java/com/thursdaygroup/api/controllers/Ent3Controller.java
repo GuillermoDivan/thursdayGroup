@@ -1,4 +1,5 @@
 package com.thursdaygroup.api.controllers;
+import com.thursdaygroup.api.entities.ent1.Ent1ReadDTO;
 import com.thursdaygroup.api.entities.ent3.*;
 import com.thursdaygroup.api.services.Ent3.Ent3Service;
 import jakarta.transaction.Transactional;
@@ -59,12 +60,18 @@ public class Ent3Controller {
         return ResponseEntity.ok().body(readDtoPage);
     }
 
-    /* Este y todos los endpoints que requieren pasar fecha por url no están hechos porque aún no entiendo cómo. >.< #InProgress.
+    //InProgress: lo ideal sería trabajar también con hora... y no pedirlos string, sino localDateTime, pero por ahora anda!
     @GetMapping("/date/{date}")
-    public ResponseEntity<Page<Ent3ReadDTO>> findAllByDate(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss") LocalDateTime date, Pageable paging){
-        var readDto = this.Ent3Service.findAllByDate(true, date);
+    public ResponseEntity<Page<Ent3ReadDTO>> findAllByDate(@PathVariable String date, Pageable paging){
+        var readDto = this.ent3Service.findAllByDate(true, date, paging);
         return ResponseEntity.ok().body(readDto);
-    }*/
+    }
+
+    @GetMapping("/dates/{date1}/{date2}")
+    public ResponseEntity<Page<Ent3ReadDTO>> findAllBetweenDates(@PathVariable String date1, @PathVariable String date2, Pageable paging){
+        var readDto = this.ent3Service.findAllBetweenDates(true, date1, date2, paging);
+        return ResponseEntity.ok().body(readDto);
+    }
 
     @PutMapping("/id/{id}")
     @Transactional

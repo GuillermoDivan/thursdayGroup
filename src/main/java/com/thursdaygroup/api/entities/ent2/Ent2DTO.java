@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -17,7 +17,7 @@ public class Ent2DTO {
     private String secretInfo;
     private String noUpdatableInfo;
     private String email;
-    private LocalDateTime date;
+    private LocalDate date;
 }
 
 // Si se recurre a mapper, el DTO simplemente es una copia de la entidad con los atributos

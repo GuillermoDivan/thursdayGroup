@@ -7,7 +7,8 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,7 +28,7 @@ public class Ent2Service {
         //Sin anotaciones debe hacerse de modo manual en los ifs... pero bueno, eviten esto y usen anotaciones en DTO
         // o parámetro del controller. Las anotaciones son sus amigas, jajaja.
         Ent2 ent2 = ent2Mapper.convertDTOToEnt2(ent2DTO);
-        ent2.setDate(LocalDateTime.now()); //Por alguna razón no se pudo settear en constructor...
+        ent2.setDate(LocalDate.now()); //Por alguna razón no se pudo settear en constructor...
         this.ent2Repository.save(ent2);
         return ent2Mapper.convertEnt2ToDTO(ent2);
     }
@@ -48,12 +49,15 @@ public class Ent2Service {
         //Y por último aclararle que se lo debe pasar a Lista.
     }
 
-    public List<Ent2DTO> findAllByDate(boolean active, LocalDateTime date) {
-        return this.ent2Repository.findAllByDateAndActive(date, active).stream().map(ent2Mapper::convertEnt2ToDTO).collect(Collectors.toList());
+    public List<Ent2DTO> findAllByDate(boolean active, String date) {
+        LocalDate date1 = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        return this.ent2Repository.findAllByDateAndActive(date1, active).stream().map(ent2Mapper::convertEnt2ToDTO).collect(Collectors.toList());
     }
 
-    public List<Ent2DTO> findAllBetweenDates(boolean active, LocalDateTime date1, LocalDateTime date2) {
-        return this.ent2Repository.findAllBetweenDatesAndActive(date1, date2, active).stream().map(ent2Mapper::convertEnt2ToDTO).collect(Collectors.toList());
+    public List<Ent2DTO> findAllBetweenDates(boolean active, String date1, String date2) {
+        LocalDate dateBefore = LocalDate.parse(date1, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        LocalDate dateAfter = LocalDate.parse(date2, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        return this.ent2Repository.findAllBetweenDatesAndActive(dateBefore, dateAfter, active).stream().map(ent2Mapper::convertEnt2ToDTO).collect(Collectors.toList());
     }
 
     public List<Ent2DTO> findAllByEnt1Id(boolean active, Long ent2Id) {

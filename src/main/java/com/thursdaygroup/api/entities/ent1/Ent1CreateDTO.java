@@ -4,5 +4,6 @@ import jakarta.validation.constraints.NotNull;
 
 
 public record Ent1CreateDTO(@NotNull String publicInfo, @NotNull String secretInfo,
-                            @NotNull String noUpdatableInfo, @NotNull @Email String email) {
+                            @NotNull String noUpdatableInfo,
+                            @NotNull @Email String email) {
 }

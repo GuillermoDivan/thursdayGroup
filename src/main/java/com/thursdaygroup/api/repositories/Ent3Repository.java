@@ -5,8 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Repository
@@ -21,15 +20,15 @@ public interface Ent3Repository extends JpaRepository<Ent3, Long> {
 
     @Query("""
     SELECT E FROM Ent3 E 
-    WHERE E.date = :date and E.active = :active 
+    WHERE E.date = :date1 and E.active = :active 
     """)
-    Page<Ent3>findAllByDateAndActive(LocalDateTime date, Boolean active, Pageable paging);
+    Page<Ent3>findAllByDateAndActive(LocalDate date1, Boolean active, Pageable paging);
 
     @Query("""
     SELECT E FROM Ent3 E 
-    WHERE E.date BETWEEN :date1 AND :date2 
+    WHERE E.date BETWEEN :dateBefore AND :dateAfter 
     AND E.active = :active 
     """)
-    Page<Ent3>findAllBetweenDatesAndActive(LocalDateTime date1, LocalDateTime date2, Boolean active, Pageable paging);
+    Page<Ent3>findAllBetweenDatesAndActive(LocalDate dateBefore, LocalDate dateAfter, Boolean active, Pageable paging);
 
 }

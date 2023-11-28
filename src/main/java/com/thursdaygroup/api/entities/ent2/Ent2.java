@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -19,8 +19,9 @@ public class Ent2 {
     private String publicInfo;
     private String secretInfo;
     private String noUpdatableInfo;
+    @Column(unique = true)
     private String email;
-    private LocalDateTime date;
+    private LocalDate date;
     private boolean active = true;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "ent1_ent2_asoc",
