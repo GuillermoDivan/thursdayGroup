@@ -83,14 +83,12 @@ public class Ent2Controller {
         return ResponseEntity.ok().body(readDto);
     }
 
-    /* Este y todos los endpoints que requieren pasar fecha por url no están hechos porque aún no entiendo cómo. >.< #InProgress.
-    //Idem la ManyToMany. u.u
-    @GetMapping("/date/{date}")
-    public ResponseEntity<List<Ent2DTO>> findAllByDate(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss") LocalDateTime date){ //En el caso de listas, se retorna una response entity de la lista.
-        var dto = this.ent2Service.findAllByDate(true, date);
+    @PutMapping("/id2/{id2}/id1/{id1}")
+    @Transactional
+    public ResponseEntity<Ent2DTO> relateEnt2ToEnt1(@PathVariable Long id2, @PathVariable Long id1){
+        var dto = this.ent2Service.relateEnt2ToEnt1(id1, id2);
         return ResponseEntity.ok().body(dto);
     }
-*/
 
     @PutMapping("/id/{id}")
     @Transactional

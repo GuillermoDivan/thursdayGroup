@@ -23,10 +23,7 @@ public class Ent2 {
     private String email;
     private LocalDate date;
     private boolean active = true;
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "ent1_ent2_asoc",
-            joinColumns = { @JoinColumn(name = "Ent2_id") },
-            inverseJoinColumns = { @JoinColumn(name = "Ent1_id") })
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "ent2List", cascade = CascadeType.ALL)
     private List<Ent1> ent1List;
 }
 

@@ -87,14 +87,13 @@ public class Ent1Controller {
         return ResponseEntity.ok().body(readDto);
     }
 
-    /*
-    // ManyToMany in progress... no me juzguen, jajaja
+
     @PutMapping("/id1/{id1}/id2/{id2}")
     @Transactional
     public ResponseEntity<Ent1ReadDTO> relateEnt1ToEnt2(@PathVariable Long id1, @PathVariable Long id2){
-        var readDto = this.Ent1Service.relateEnt1ToEnt2(id1, id2);
+        var readDto = this.ent1Service.relateEnt1ToEnt2(id1, id2);
         return ResponseEntity.ok().body(readDto);
-    }*/
+    }
 
     @PutMapping(path = "/id/{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE,

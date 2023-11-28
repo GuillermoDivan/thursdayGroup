@@ -1,8 +1,10 @@
 package com.thursdaygroup.api.services.Ent2;
-import com.thursdaygroup.api.entities.ent2.Ent2;
+import com.thursdaygroup.api.entities.ent1.Ent1;
+import com.thursdaygroup.api.entities.ent1.Ent1ReadDTO;
 import com.thursdaygroup.api.entities.ent2.*;
 import com.thursdaygroup.api.mappers.Ent2Mapper;
 import com.thursdaygroup.api.repositories.Ent2Repository;
+import com.thursdaygroup.api.repositories.Ent1Repository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ import java.util.stream.Collectors;
 public class Ent2Service {
 
     private final Ent2Repository ent2Repository;
+    private final Ent1Repository ent1Repository; //Necesario por la relación ManyToMany.
     private final Ent2Mapper ent2Mapper;
 
     public Ent2DTO save(Ent2DTO ent2DTO) throws ValidationException{
@@ -62,6 +65,16 @@ public class Ent2Service {
 
     public List<Ent2DTO> findAllByEnt1Id(boolean active, Long ent2Id) {
         return this.ent2Repository.findAllByEnt1IdAndActive(ent2Id, active).stream().map(ent2Mapper::convertEnt2ToDTO).collect(Collectors.toList());
+    }
+
+    public Ent2DTO relateEnt2ToEnt1(Long id1, Long id2) throws EntityNotFoundException {
+        Ent1 ent1 = this.ent1Repository.findById(id1).orElseThrow(EntityNotFoundException::new);
+        Ent2 ent2 = this.ent2Repository.findById(id2).orElseThrow(EntityNotFoundException::new);
+        ent2.getEnt1List().add(ent1);
+        //La relación es de los dos lados, al settear a una, se le settea a la otra.
+        //Repetiré el método en Ent1 simplemente por si se quiere probar hacer la relación desde la otra entidad.
+        this.ent2Repository.save(ent2);
+        return ent2Mapper.convertEnt2ToDTOWhitoutCascade(ent2);
     }
 
     public Ent2DTO update(Ent2DTO ent2DTO) throws EntityNotFoundException {
