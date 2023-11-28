@@ -1,14 +1,11 @@
 package com.thursdaygroup.api.entities.ent1;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.thursdaygroup.api.entities.ent2.Ent2;
 import com.thursdaygroup.api.entities.ent3.Ent3;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -22,8 +19,9 @@ public class Ent1 {
     private String publicInfo;
     private String secretInfo;
     private String noUpdatableInfo;
+    @Column(unique = true)
     private String email;
-    private LocalDateTime date;
+    private LocalDate date;
     private boolean active;
     //Fetch type eager implica que la info relacional de ambas tablas sea traída al buscar
     // cualquiera de las dos. Cuando se busca una entidad se lista automáticamente a los
@@ -42,7 +40,7 @@ public class Ent1 {
         this.noUpdatableInfo = ent1CreateDTO.noUpdatableInfo();
         this.email = ent1CreateDTO.email();
         //Hay atributos que se settean por defecto en determinado estado.
-        this.date = LocalDateTime.now();
+        this.date = LocalDate.now();
         this.active = true;
 
         //Los atributos ent2List y ent3List no son ingresados por este DTO y el objeto se crea

@@ -8,7 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 
 @Service
 @RequiredArgsConstructor
@@ -38,7 +40,7 @@ public class Ent1ServiceImpl implements Ent1Service{
 
     @Override
     public Ent1ReadDTO findById(Long id) throws EntityNotFoundException{
-        Ent1 ent1 = this.ent1Repository.findById(id).orElseThrow(EntityNotFoundException::new);
+        var ent1 = this.ent1Repository.findById(id).orElseThrow(EntityNotFoundException::new);
         return new Ent1ReadDTO(ent1);
     }
 
@@ -54,13 +56,17 @@ public class Ent1ServiceImpl implements Ent1Service{
     }
 
     @Override
-    public Page<Ent1ReadDTO> findAllByDate(boolean active, LocalDateTime date, Pageable paging) {
-        return this.ent1Repository.findAllByDateAndActive(date, active, paging).map(Ent1ReadDTO::new);
+    public Page<Ent1ReadDTO> findAllByDate(boolean active, String date, Pageable paging) {
+        LocalDate date1 = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        return this.ent1Repository.findAllByDateAndActive(date1, active, paging).map(Ent1ReadDTO::new);
     }
 
     @Override
-    public Page<Ent1ReadDTO> findAllBetweenDates(boolean active, LocalDateTime date1, LocalDateTime date2, Pageable paging) {
-        return this.ent1Repository.findAllBetweenDatesAndActive(date1, date2, active, paging).map(Ent1ReadDTO::new);
+    public Page<Ent1ReadDTO> findAllBetweenDates(boolean active, String date1, String date2, Pageable paging) {
+        LocalDate dateBefore = LocalDate.parse(date1, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        LocalDate dateAfter = LocalDate.parse(date2, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        var debugging = this.ent1Repository.findAllBetweenDatesAndActive(dateBefore, dateAfter, active, paging).map(Ent1ReadDTO::new);
+        return debugging;
     }
 
     @Override

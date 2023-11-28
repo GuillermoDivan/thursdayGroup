@@ -6,7 +6,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Service
 @RequiredArgsConstructor
@@ -39,13 +42,16 @@ public class Ent3ServiceImpl implements Ent3Service {
     }
 
     @Override
-    public Page<Ent3ReadDTO> findAllByDate(boolean active, LocalDateTime date, Pageable paging) {
-        return this.ent3Repository.findAllByDateAndActive(date, active, paging).map(Ent3ReadDTO::new);
+    public Page<Ent3ReadDTO> findAllByDate(boolean active, String date, Pageable paging) {
+        LocalDate date1 = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        return this.ent3Repository.findAllByDateAndActive(date1, active, paging).map(Ent3ReadDTO::new);
     }
 
     @Override
-    public Page<Ent3ReadDTO> findAllBetweenDates(boolean active, LocalDateTime date3, LocalDateTime date2, Pageable paging) {
-        return this.ent3Repository.findAllBetweenDatesAndActive(date3, date2, active, paging).map(Ent3ReadDTO::new);
+    public Page<Ent3ReadDTO> findAllBetweenDates(boolean active, String date1, String date2, Pageable paging) {
+        LocalDate dateBefore = LocalDate.parse(date1, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        LocalDate dateAfter = LocalDate.parse(date2, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        return this.ent3Repository.findAllBetweenDatesAndActive(dateBefore, dateAfter, active, paging).map(Ent3ReadDTO::new);
     }
 
     @Override

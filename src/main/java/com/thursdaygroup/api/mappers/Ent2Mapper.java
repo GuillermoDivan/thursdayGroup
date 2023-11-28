@@ -15,8 +15,8 @@ public class Ent2Mapper {
         return ent2DTO;
     }
 
-    public Ent2 convertDTOToEnt2(Ent2DTO ent2createDTO){
-        Ent2 ent2 = modelMapper.map(ent2createDTO, Ent2.class);
+    public Ent2 convertDTOToEnt2(Ent2DTO ent2DTO){
+        Ent2 ent2 = modelMapper.map(ent2DTO, Ent2.class);
         return ent2;
     }
 

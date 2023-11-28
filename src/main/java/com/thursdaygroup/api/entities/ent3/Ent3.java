@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -18,8 +18,9 @@ public class Ent3 {
     private String publicInfo;
     private String secretInfo;
     private String noUpdatableInfo;
+    @Column(unique = true)
     private String email;
-    private LocalDateTime date;
+    private LocalDate date;
     private boolean active;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ent1_id")
@@ -32,7 +33,7 @@ public class Ent3 {
         this.email = ent3CreateDTO.email();
 
         //Hay atributos que se settean por defecto en determinado estado.
-        this.date = LocalDateTime.now();
+        this.date = LocalDate.now();
         this.active = true;
 
         //Para crear la relación ManyToOne se requiere en el constructor Many

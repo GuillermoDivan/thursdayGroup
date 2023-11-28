@@ -10,8 +10,8 @@ public interface Ent3Service {
     Ent3ReadDTO findById(Long id) throws EntityNotFoundException;
     Ent3ReadDTO findByEmail(boolean active, String email) throws EntityNotFoundException;
     Page<Ent3ReadDTO> findAll(boolean active, Pageable paging);
-    Page<Ent3ReadDTO>  findAllByDate(boolean active, LocalDateTime date, Pageable paging);
-    Page<Ent3ReadDTO>  findAllBetweenDates(boolean active, LocalDateTime date3, LocalDateTime date2, Pageable paging);
+    Page<Ent3ReadDTO>  findAllByDate(boolean active, String date, Pageable paging);
+    Page<Ent3ReadDTO>  findAllBetweenDates(boolean active, String date1, String date2, Pageable paging);
     Page<Ent3ReadDTO> findAllByEnt1Id(boolean active, Long ent1Id, Pageable paging);
     Ent3ReadDTO update(Ent3UpdateDTO ent3UpdateDTO) throws EntityNotFoundException;
     boolean toggle (Long id) throws EntityNotFoundException;
